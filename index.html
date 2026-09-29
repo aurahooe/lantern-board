@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>The Hour Desk — Lantern</title>
+  <meta name="description" content="A small public desk that turns over every hour. Write privately. Mark a slip public and it hangs on the wall." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,600;0,9..144,800;1,9..144,400;1,9..144,600&family=IBM+Plex+Mono:wght@400;500&family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,600;1,8..60,400&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="./styles.css" />
+</head>
+<body>
+  <div class="grain" aria-hidden="true"></div>
+  <div class="wash" aria-hidden="true"></div>
+  <header class="mast">
+    <a class="mark" href="#desk" data-nav="desk">
+      <span class="flame" aria-hidden="true"></span>
+      <span class="mark-name">The Hour Desk</span>
+    </a>
+    <nav class="nav">
+      <button type="button" data-nav="desk">Desk</button>
+      <button type="button" data-nav="wall">Wall</button>
+      <button type="button" data-nav="studio" class="needs-auth hidden">Studio</button>
+    </nav>
+    <div class="mast-right">
+      <div class="hour-chip" id="hour-chip" title="Current edition">
+        <span class="dot"></span>
+        <span id="hour-label">—</span>
+      </div>
+      <button type="button" class="ghost" id="auth-open">Sign in</button>
+      <button type="button" class="ghost hidden" id="sign-out">Leave</button>
+    </div>
+  </header>
+  <main>
+    <section id="view-desk" class="view is-on">
+      <article class="edition" id="edition">
+        <p class="kicker"><span>Hourly edition</span><span id="edition-slot">loading the press</span></p>
+        <h1 id="edition-title">The lamp is still warming.</h1>
+        <p class="lede" id="edition-body">Every hour this desk reprints. Public slips from the wall can be pulled into the edition. Private writing stays in your studio.</p>
+      </article>
+      <aside class="desk-aside">
+        <div class="clock-card">
+          <div class="face" id="clock-face">
+            <div class="hand hour" id="hand-h"></div>
+            <div class="hand min" id="hand-m"></div>
+            <div class="hub"></div>
+          </div>
+          <p class="clock-copy">Next reprint in <strong id="countdown">—</strong></p>
+        </div>
+        <p class="aside-note">The wall only shows slips you marked public. Everything else lives behind your login.</p>
+      </aside>
+    </section>
+    <section id="view-wall" class="view">
+      <div class="section-head">
+        <h2>Public wall</h2>
+        <p>Pinned by people who chose to show their work.</p>
+      </div>
+      <div class="wall" id="wall"></div>
+    </section>
+    <section id="view-studio" class="view">
+      <div class="section-head">
+        <h2>Studio</h2>
+        <p>Drafts stay private until you flip the switch.</p>
+      </div>
+      <form class="composer" id="composer">
+        <label>Title<input name="title" maxlength="140" required placeholder="A short name for the slip" /></label>
+        <label>Body<textarea name="body" maxlength="8000" required rows="8" placeholder="Write like nobody is watching — unless you hang it."></textarea></label>
+        <label class="switch"><input type="checkbox" name="is_public" /><span>Hang on the public wall</span></label>
+        <button type="submit" class="solid">Save slip</button>
+        <p class="form-msg" id="composer-msg"></p>
+      </form>
+      <div class="mine" id="mine"></div>
+    </section>
+  </main>
+  <dialog id="auth-dialog" class="sheet">
+    <form method="dialog" class="sheet-form" id="auth-form">
+      <h2>Take a seat</h2>
+      <p class="muted">Email and password. Your slips stay on this desk until you mark them public.</p>
+      <label>Email <input type="email" name="email" required autocomplete="email" /></label>
+      <label>Password <input type="password" name="password" required minlength="6" autocomplete="current-password" /></label>
+      <label>Handle <input type="text" name="handle" maxlength="24" placeholder="optional, letters only" /></label>
+      <div class="row">
+        <button type="submit" class="solid" data-mode="in">Sign in</button>
+        <button type="button" class="ghost" id="auth-up">Create desk</button>
+      </div>
+      <p class="form-msg" id="auth-msg"></p>
+      <button type="submit" class="close-x" value="cancel" formnovalidate>Close</button>
+    </form>
+  </dialog>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="./app.js"></script>
+</body>
+</html>
